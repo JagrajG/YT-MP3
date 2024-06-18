@@ -10,7 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     fetch(`/convert?url=${encodeURIComponent(url)}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          // Check if the response is OK
+          return response.json();
+        } else {
+          throw new Error("Failed to fetch data from server");
+        }
+      })
       .then((data) => {
         if (data.success) {
           alert("Conversion successful! Download link: " + data.downloadUrl);
